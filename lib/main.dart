@@ -17,7 +17,7 @@ class EpictureApp extends StatelessWidget {
         primaryColorLight: Color(0xFFFF9F59),
         accentColor: Color(0xFFFF9F59)
       ),
-      home: ScrollableImgur(),
-    );
+      home: HomeView(),
+      );
   }
 }

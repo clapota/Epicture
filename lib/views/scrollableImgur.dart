@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:epicture/views/widgets/ImgurImageCard.dart';
 
 class ScrollableImgur extends StatefulWidget {
   ScrollableImgur({Key key}) : super(key: key);
@@ -9,30 +10,33 @@ class ScrollableImgur extends StatefulWidget {
 class _ScrollableImgurState extends State<ScrollableImgur> {
   final ScrollController scrollController = ScrollController();
 
-  final List<String> listData = [
-    "toto",
-    "tata",
-    "toto",
-    "tata",
-    "toto",
-    "tata",
-    "toto",
-    "tata",
-    "tata",
-    "toto",
-    "tata",
-    "toto",
-    "tata",
-    "tata",
-    "toto",
-    "tata",
-    "toto",
-    "tata",
+  final List<ImageCard> listData = [
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
+    ImageCard(),
   ];
 
   void loadMoreImages() {
     setState(() {
-      listData..addAll(List<String>.from(listData));
+      listData..addAll(List<ImageCard>.from(listData));
     });
   }
 
@@ -61,9 +65,7 @@ class _ScrollableImgurState extends State<ScrollableImgur> {
         itemCount: listData.length,
         controller: scrollController,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(listData[index]),
-          );
+          return listData[index];
         },
       )
     );
