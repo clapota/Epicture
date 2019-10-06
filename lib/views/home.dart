@@ -76,6 +76,29 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               margin: const EdgeInsets.fromLTRB(30, 80, 30, 0)
+            ),
+            InkWell(
+              onTap: () => {},
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                height: 60.0,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7.0),
+                  border: Border.all(color: Colors.white),
+                  color: Colors.transparent,
+                ),
+                child: Center(
+                  child: Text(
+                    'REGISTER',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  )
+                )
+              )
             )
           ],
         )

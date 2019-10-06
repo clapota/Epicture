@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:epicture/views/scrollableImgur.dart';
 import 'views/home.dart';
 
 void main() => runApp(EpictureApp());
@@ -16,7 +17,7 @@ class EpictureApp extends StatelessWidget {
         primaryColorLight: Color(0xFFFF9F59),
         accentColor: Color(0xFFFF9F59)
       ),
-      home: HomeView(),
+      home: ScrollableImgur(),
     );
   }
 }
