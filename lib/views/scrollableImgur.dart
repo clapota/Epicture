@@ -11,27 +11,25 @@ class _ScrollableImgurState extends State<ScrollableImgur> {
   final ScrollController scrollController = ScrollController();
 
   final List<ImageCard> listData = [
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
-    ImageCard(),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
+    ImageCard(image: Image.network('https://blog.devidia.net/wp-content/uploads/2017/11/safe_image.gif', fit: BoxFit.fill,)),
   ];
 
   void loadMoreImages() {
@@ -59,15 +57,13 @@ class _ScrollableImgurState extends State<ScrollableImgur> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('test infinite scroll')),
-      body: ListView.builder(
+    return 
+      ListView.builder(
         itemCount: listData.length,
         controller: scrollController,
         itemBuilder: (context, index) {
           return listData[index];
         },
-      )
-    );
+      );
   }
 }
