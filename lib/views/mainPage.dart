@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:epicture/views/scrollableImgur.dart';
+import 'package:flutter/foundation.dart';
+import 'package:epicture/views/uploadView.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -11,30 +13,30 @@ class _MainPageState extends State<MainPage> {
 
   int currentIndex = 0;
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> widgetOptions = <Widget>[
+  List<Widget> widgetOptions = <Widget>[
     ScrollableImgur(),
-    ScrollableImgur(),
-    ScrollableImgur()
+    Text('toto'),
+    UploadPhotoView()
   ];  
 
   void onItemTapped(int index)
   {
+    debugPrint(index.toString());
     setState(() {
-      currentIndex = index;
+      this.currentIndex = index;
     });
   }
 
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Rebuild');
+    debugPrint(this.currentIndex.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Epicture'),
       ),
-      body: Container(
-        color: Theme.of(context).primaryColorDark,
-        child: widgetOptions.elementAt(this.currentIndex)
-        ),
+      body: this.widgetOptions.elementAt(this.currentIndex),
       bottomNavigationBar: BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

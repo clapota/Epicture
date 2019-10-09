@@ -19,7 +19,7 @@ class _ImageCardState extends State<ImageCard> {
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Card(
         elevation: 10,
-        color: Color(0xFFf7418c),
+        color: Colors.white,
         margin: const EdgeInsets.fromLTRB(0, 3, 0, 3),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,8 +27,8 @@ class _ImageCardState extends State<ImageCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text('by : AUTHOR', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 15),),
-                Text('upvotes nb : 10', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 15)),
+                Text('by : AUTHOR', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w800, fontSize: 15),),
+                Text('upvotes nb : 10', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w800, fontSize: 15)),
               ],
             ),
             Padding(padding: const EdgeInsets.fromLTRB(0, 20, 0, 0), 
