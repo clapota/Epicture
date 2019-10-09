@@ -2,15 +2,15 @@ import 'package:epicture/ImgurAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-class HomeView extends StatefulWidget {
-  const HomeView({ Key key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({ Key key}) : super(key: key);
 
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +76,29 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               margin: const EdgeInsets.fromLTRB(30, 80, 30, 0)
+            ),
+            InkWell(
+              onTap: () => {},
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                height: 60.0,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7.0),
+                  border: Border.all(color: Colors.white),
+                  color: Colors.transparent,
+                ),
+                child: Center(
+                  child: Text(
+                    'REGISTER',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  )
+                )
+              )
             )
           ],
         )
