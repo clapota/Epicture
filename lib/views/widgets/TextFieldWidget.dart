@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  const TextFieldWidget({Key key, this.hintText, this.visible}) : super(key: key);
+  const TextFieldWidget({Key key, this.hintText, this.visible, this.validator, this.onChanged}) : super(key: key);
 
   final String hintText;
   final bool visible;
+  final FormFieldValidator<String> validator;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: TextField(
+      child: TextFormField(
+        validator: validator,
+        onChanged: onChanged,
         decoration: InputDecoration(
           hintText: this.hintText,
           hintStyle: TextStyle(color: Colors.white),
