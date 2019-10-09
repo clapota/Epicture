@@ -1,26 +1,16 @@
+import 'package:epicture/ImgurAPI.dart';
 import 'package:flutter/material.dart';
-import 'widgets/loginDialog.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-class HomeView extends StatefulWidget {
-  const HomeView({ Key key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({ Key key}) : super(key: key);
 
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _HomeViewState extends State<HomeView> {
-
-  void pressButton() {
-    setState(() {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return LoginDialog();
-        }
-      );
-    });
-  }
+class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +52,17 @@ class _HomeViewState extends State<HomeView> {
               ),
               child: RaisedButton(
                 elevation: 5.0,
-                onPressed: pressButton,
+                onPressed: () {
+                  url_launcher.launch(Uri.https(
+                    ImgurAPI.authorizationEndpoint.authority,
+                    ImgurAPI.authorizationEndpoint.path,
+                    {
+                      'client_id': ImgurAPI.clientId,
+                      'response_type': 'token',
+                    },
+                  ).toString());
+                  Navigator.pop(context);
+                },
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7.0)

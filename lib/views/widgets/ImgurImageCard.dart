@@ -1,50 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:epicture/views/widgets/PressableIconWidget.dart';
 
 class ImageCard extends StatefulWidget {
   ImageCard({Key key, this.image}) : super(key: key);
 
   final Image image;
-  _ImageCardState createState() => _ImageCardState();
 
+  _ImageCardState createState() => _ImageCardState();
 }
 
 class _ImageCardState extends State<ImageCard> {
-  void showImage() {
+  void showImage() {}
 
-  }
+  void onClick() {}
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)
+        ),
         elevation: 10,
         color: Colors.white,
         margin: const EdgeInsets.fromLTRB(0, 3, 0, 3),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text('by : AUTHOR', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w800, fontSize: 15),),
-                Text('upvotes nb : 10', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w800, fontSize: 15)),
-              ],
-            ),
-            Padding(padding: const EdgeInsets.fromLTRB(0, 20, 0, 0), 
-            child: 
-            GestureDetector(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+          GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
                   return DetailScreen(image: this.widget.image);
                 }));
               },
-              child: this.widget.image
+              child: this.widget.image),
+          Container(
+//            color: Theme.of(context).primaryColorDark,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(bottomLeft:  Radius.circular(20.0), bottomRight: Radius.circular(20.0)),
+                gradient: LinearGradient(
+                    colors: const [Color(0xFFFD60A3), Color(0xFFFF8961)],
+                    stops: const [0.0, 1.0],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft
+                )
             ),
-            )
-          ],
-        ),
-      )
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 8, 8.0, 0),
+                  child: Text('J\'ai trouvé un chat par terre c\'est devenu un pd',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    PressableIconWidget(iconData: Icons.thumb_up, label: '13', onClick: this.onClick,),
+                    PressableIconWidget(iconData: Icons.thumb_down, label: '25K', onClick: this.onClick, pressedColor: Colors.red,),
+                    PressableIconWidget(iconData: Icons.comment, label: '660', onClick: this.onClick, pressedColor: Colors.white,),
+                    PressableIconWidget(iconData: Icons.remove_red_eye, label: '450K', onClick: this.onClick, pressedColor: Colors.white,)
+                  ],
+                )
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
@@ -57,12 +84,9 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        child: Center(
-          child: this.image
-        ),
-        onTap: () => Navigator.pop(context),
-      )
-    );
+        body: GestureDetector(
+      child: Center(child: this.image),
+      onTap: () => Navigator.pop(context),
+    ));
   }
 }
