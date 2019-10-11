@@ -10,18 +10,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:epicture/models/TokenModel.dart';
 
 class LandingPage extends StatelessWidget {
-  Future<bool> isLoggedIn() async {
+  Future<bool> isLoggedIn(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     final credentials_string = prefs.getString("oauth_credentials");
 
-    if (credentials_string == null) return true;
+    if (credentials_string == null) return false;
     try {
       final credentials = OAuthAccessToken.fromJson(jsonDecode(credentials_string));
-      // TODO store credentials somewhere
+      ScopedModel.of<TokenModel>(context).storeToken(credentials);
       print("logged in as: ${credentials.accountUsername}");
       return true;
     } catch (e) {
-      return true;
+      return false;
     }
   }
 
@@ -29,19 +29,20 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModel<TokenModel>(
       model: new TokenModel(),
-      child: FutureBuilder<bool>(
-        future: isLoggedIn(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data)
-              return MainPage();
-            else
-              return LoginPage();
-          }
-          return Splashscreen();
-        },
+      child: Builder(
+        builder: (context) => FutureBuilder<bool>(
+          future: isLoggedIn(context),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data)
+                return MainPage();
+              else
+                return LoginPage();
+            }
+            return Splashscreen();
+          },
+        ),
       ),
-      
     );
   }
 }

@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               margin: const EdgeInsets.fromLTRB(30, 80, 30, 0)
             ),
             InkWell(
-              onTap: () => {},
+              onTap: () => url_launcher.launch("https://imgur.com/register"),
               child: Container(
                 margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
                 height: 60.0,
