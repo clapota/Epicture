@@ -12,6 +12,7 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   final ScrollController scrollController = ScrollController();
   final List<Widget> listData = [];
+  bool isLoading = false;
   int listIndex = 0;
   List<ImgurTag> tagList = [];
 
@@ -22,17 +23,35 @@ class _SearchViewState extends State<SearchView> {
     scrollController.dispose();
   }
 
-  Future<void> loadMore() async {
+  Future<List<Widget>> getSomeImages(int number) async {
+    List<Widget> list = [];
     int tmp = this.listIndex;
-    while (tmp < this.listIndex + 10) {
-      setState(() {
-        this.listData..add(TagCard(tag: this.tagList[tmp]));
-      });
-      tmp += 1;
+    while (tmp < this.listIndex + number) {
+      list.add(TagCard(tag: this.tagList[tmp],));
+      tmp++;
     }
     setState(() {
-      this.listIndex += 10;
+      this.listIndex += 5;
     });
+    return list;
+  }
+
+  Future<void> loadMore(int number) async {
+    if (!this.isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+      this.getSomeImages(number).then((list) {
+        setState(() {
+          debugPrint('old list lenght : ' + list.length.toString());
+          this.listData..addAll(list);
+          debugPrint('list length : ' + this.listData.length.toString());
+        });
+      });
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -41,7 +60,7 @@ class _SearchViewState extends State<SearchView> {
 
     this.scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-        this.loadMore();
+        this.loadMore(2);
       }
     });
     var api = ImgurAPI();
@@ -56,12 +75,7 @@ class _SearchViewState extends State<SearchView> {
       setState(() {
         this.tagList = tags.map((tagJson) => ImgurTag.fromJson(tagJson)).toList();
       });
-      while (this.listIndex < 10) {
-        setState(() {
-          this.listData.add(TagCard(tag: this.tagList[this.listIndex]));
-          this.listIndex++;
-        });
-      }
+      this.loadMore(5);
     });
   }
 
