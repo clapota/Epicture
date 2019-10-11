@@ -4,6 +4,7 @@ import 'package:epicture/views/scrollableImgur.dart';
 import 'package:flutter/foundation.dart';
 import 'package:epicture/views/uploadView.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:epicture/views/searchView.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -17,7 +18,7 @@ class _MainPageState extends State<MainPage> {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> widgetOptions = <Widget>[
     ScrollableImgur(),
-    Text('toto'),
+    SearchView(),
     UploadPhotoView()
   ];  
 

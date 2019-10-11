@@ -28,13 +28,16 @@ class _PressableIconWidgetState extends State<PressableIconWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[
+    return Column(children: <Widget>[
       IconButton(
         icon: Icon(this.widget.iconData),
         onPressed: this.onPress,
         color: this.color,
       ),
-      Text(this.widget.label, style: TextStyle(fontSize: 12.0, color: this.color, fontWeight: FontWeight.w800),)
+      Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+      child: Text(this.widget.label, style: TextStyle(fontSize: 12.0, color: this.color, fontWeight: FontWeight.w800),)
+      )
     ]);
   }
 }

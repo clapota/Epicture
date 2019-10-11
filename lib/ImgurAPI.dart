@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'objects/ImgurImage.dart';
 
 
@@ -27,8 +29,8 @@ class ImgurAPI {
       method,
       Uri(
         scheme: "https",
-        host: "$baseUrl/$version",
-        path: path,
+        host: "$baseUrl",
+        path: "/$version/$path",
         queryParameters: {}..addAll(queryParams),
       ),
     );
@@ -38,5 +40,19 @@ class ImgurAPI {
     return _buildRequest("post", "/upload", queryParams: {}).send().then((response) async {
       return ImgurImage.fromJsonMap(jsonDecode(await response.stream.bytesToString()));
     });
+  }
+
+  Future<Map<String, dynamic>> getTags() async {
+    debugPrint('le caca');
+    return http.get(
+      "https://$baseUrl/$version/tags",
+      headers: {HttpHeaders.authorizationHeader: "Client-ID " + clientId}).then((response) async {
+        debugPrint(jsonDecode(response.body).toString());
+        return jsonDecode(response.body);
+    });
+  }
+
+  Image getImageFromHash(String hash) {
+    return Image.network("https://i.imgur.com/$hash.jpg");
   }
 }
