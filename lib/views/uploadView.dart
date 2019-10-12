@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:simple_animations/simple_animations/multi_track_tween.dart';
 
 class UploadPhotoView extends StatefulWidget {
@@ -25,11 +24,14 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
 
   Future accessGallery() async {
     debugPrint('go in photo gallery');
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = image;
-    });
+    try {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _image = image;
+      });
+    } catch (e) {
+      debugPrint(e);
+    }
   }
 
   Future accessCamera() async {

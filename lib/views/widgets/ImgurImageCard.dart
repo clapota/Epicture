@@ -61,10 +61,11 @@ class _ImageCardState extends State<ImageCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    PressableIconWidget(iconData: Icons.thumb_up, label: '13', onClick: this.onClick,),
-                    PressableIconWidget(iconData: Icons.thumb_down, label: '25K', onClick: this.onClick, pressedColor: Colors.red,),
+                    PressableIconWidget(iconData: Icons.thumb_up, label: '13', onClick: this.onClick, pressedColor: Colors.greenAccent,),
+                    PressableIconWidget(iconData: Icons.thumb_down, label: '25K', onClick: this.onClick, pressedColor: Colors.black,),
                     PressableIconWidget(iconData: Icons.comment, label: '660', onClick: this.onClick, pressedColor: Colors.white,),
-                    PressableIconWidget(iconData: Icons.remove_red_eye, label: '450K', onClick: this.onClick, pressedColor: Colors.white,)
+                    PressableIconWidget(iconData: Icons.remove_red_eye, label: '450K', onClick: this.onClick, pressedColor: Colors.white,),
+                    PressableIconWidget(iconData: Icons.star,label: '', onClick:  this.onClick, pressedColor: Colors.yellow,)
                   ],
                 )
               ],
