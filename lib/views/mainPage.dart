@@ -1,3 +1,5 @@
+import 'package:epicture/bloc/bloc.dart';
+import 'package:epicture/bloc/searchBloc.dart';
 import 'package:epicture/models/TokenModel.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/views/scrollableImgur.dart';
@@ -18,7 +20,10 @@ class _MainPageState extends State<MainPage> {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> widgetOptions = <Widget>[
     ScrollableImgur(),
-    SearchView(),
+    BlocProvider<SearchBloc>(
+      child: SearchView(),
+      bloc: SearchBloc(),
+    ),
     UploadPhotoView()
   ];  
 
@@ -27,6 +32,11 @@ class _MainPageState extends State<MainPage> {
     debugPrint(index.toString());
     setState(() {
       this.currentIndex = index;
+      this.widgetOptions[1] = BlocProvider<SearchBloc>(
+        child: SearchView(),
+        bloc: SearchBloc(),
+      );
+
     });
   }
 

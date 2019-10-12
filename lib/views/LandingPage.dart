@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:epicture/bloc/searchBloc.dart';
 import 'package:epicture/objects/OAuthAccessToken.dart';
 import 'package:epicture/views/mainPage.dart';
 import 'package:epicture/views/splashscreen.dart';
