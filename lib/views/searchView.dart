@@ -31,7 +31,9 @@ class _SearchViewState extends State<SearchView> {
     int tmp = this.listIndex;
     int listSize = this.tagList.length;
     while (tmp < this.listIndex + number && tmp < listSize) {
-      list.add(TagCard(tag: this.tagList[tmp],));
+      list.add(TagCard(
+        tag: this.tagList[tmp],
+      ));
       tmp++;
     }
     setState(() {
@@ -63,56 +65,50 @@ class _SearchViewState extends State<SearchView> {
     super.initState();
 
     this.searchBloc = BlocProvider.of<SearchBloc>(context);
-    this.scrollController.addListener(() {
+/*    this.scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         this.loadMore(2);
       }
-    });
-    var api = ImgurAPI();
-    api.getTags().then((jsonData) {
-      if (!jsonData.containsKey("data")) {
-        throw Exception("can't reach api");
-      }
-      var data = jsonData["data"];
-      if (!data.containsKey("tags"))
-        throw Exception("No tags in request");
-      List tags = data["tags"];
+    });*/
+    ImgurAPI().getTags().then((tags) {
       setState(() {
-        this.tagList = tags.map((tagJson) => ImgurTag.fromJson(tagJson)).toList();
+        this.tagList = tags;
       });
-      this.loadMore(5);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder<String>(
       stream: searchBloc.outSearch,
       initialData: '',
       builder: (context, snapshot) {
-        return 
-        Column(
+        return Column(
           children: <Widget>[
             Container(
               height: 50,
-              child: 
-              Center(
-                child: Text(snapshot.data)
-              ),
+              child: Center(child: Text(snapshot.data)),
             ),
             Container(
               height: MediaQuery.of(context).size.height - 150,
-              child: ListView.builder(
-                itemCount: listData.length,
-                controller: scrollController,
-                itemBuilder: (context, index) {
-                  return this.listData[index];
-                }),
-                ),
-          ]
+              child: FutureBuilder<List<ImgurTag>>(
+                future: ImgurAPI().getTags(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return SizedBox(
+                        height: MediaQuery.of(context).size.height * 2,
+                        child: Center(child: CircularProgressIndicator()));
+                  return ListView(
+                    shrinkWrap: true,
+                    primary: false,
+                    children: snapshot.data.map((tag) => TagCard(tag: tag)).toList(),
+                  );
+                },
+              ),
+            ),
+          ],
         );
-      }
+      },
     );
   }
 }

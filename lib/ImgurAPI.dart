@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:epicture/objects/ImgurTag.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'objects/ImgurImage.dart';
@@ -24,7 +25,7 @@ class ImgurAPI {
   final int version = 3;
   String auth;
 
-  http.Request _buildRequest(String method, String path, {Map<String, dynamic> queryParams = const {}}) {
+  http.Request _buildRequest(String method, String path, {Map<String, dynamic> queryParams = const {}, Map<String, dynamic> headers = const {}}) {
     return http.Request(
       method,
       Uri(
@@ -37,18 +38,17 @@ class ImgurAPI {
   }
 
   Future<ImgurImage> postImage(var image) async {
+    //TODO
     return _buildRequest("post", "/upload", queryParams: {}).send().then((response) async {
       return ImgurImage.fromJsonMap(jsonDecode(await response.stream.bytesToString()));
     });
   }
 
-  Future<Map<String, dynamic>> getTags() async {
-    debugPrint('le caca');
+  Future<List<ImgurTag>> getTags() async {
     return http.get(
       "https://$baseUrl/$version/tags",
       headers: {HttpHeaders.authorizationHeader: "Client-ID " + clientId}).then((response) async {
-        debugPrint(jsonDecode(response.body).toString());
-        return jsonDecode(response.body);
+        return (jsonDecode(response.body)['data']['tags'] as List<dynamic>).map((it) => ImgurTag.fromJson(it)).toList();
     });
   }
 
