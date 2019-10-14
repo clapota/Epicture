@@ -15,6 +15,7 @@ class TagCard extends StatefulWidget {
 
 class _TagCardState extends State<TagCard> {
   PaletteGenerator paletteGenerator;
+  Image _image;
 
   void notifySearchStream() {
     final SearchBloc bloc = BlocProvider.of<SearchBloc>(this.context);
@@ -23,14 +24,31 @@ class _TagCardState extends State<TagCard> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    ImgurAPI().getImageFromHash(this.widget.tag.backgroundHash).then((image) {
+      if (this.mounted) {
+        setState(() {
+          this._image = image;
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Card(
+      child: 
+      Container(
+        height: 300,
+        width: 150,
+        child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              ImgurAPI().getImageFromHash(this.widget.tag.backgroundHash),
+              _image != null ? _image : CircularProgressIndicator(),
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: Center(
@@ -48,6 +66,7 @@ class _TagCardState extends State<TagCard> {
               )
             ],
           )),
+      ),
       onTap: notifySearchStream,
     );
   }

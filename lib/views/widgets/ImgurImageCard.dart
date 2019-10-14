@@ -1,21 +1,40 @@
+import 'package:epicture/objects/test.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/views/widgets/PressableIconWidget.dart';
 
 class ImageCard extends StatefulWidget {
-  ImageCard({Key key, this.image}) : super(key: key);
+  ImageCard({Key key, this.album}) : super(key: key);
 
-  final Image image;
+  final GalleryAlbum album;
 
   _ImageCardState createState() => _ImageCardState();
 }
 
 class _ImageCardState extends State<ImageCard> {
+  List<Image> images = List<Image>();
   void showImage() {}
 
   void onClick() {}
 
   @override
+  void initState() {
+    super.initState();
+
+    if (this.widget.album.images != null) {
+      this.widget.album.images.forEach((image) {
+        if (!(image.type.contains('video'))) {
+          this.images.add(Image.network(image.link));
+        }
+      });
+    }
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (this.images.length == 0) {
+      return Text('ALED');
+    }
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
       child: Card(
@@ -29,10 +48,10 @@ class _ImageCardState extends State<ImageCard> {
           GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return DetailScreen(image: this.widget.image);
+                  return DetailScreen(image: this.images[0]);
                 }));
               },
-              child: this.widget.image),
+              child: this.images[0]),
           Container(
 //            color: Theme.of(context).primaryColorDark,
             decoration: BoxDecoration(
@@ -49,7 +68,7 @@ class _ImageCardState extends State<ImageCard> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8.0, 8, 8.0, 0),
-                  child: Text('J\'ai trouvé un chat par terre c\'est devenu un pd',
+                  child: Text(this.widget.album.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0,
@@ -61,10 +80,10 @@ class _ImageCardState extends State<ImageCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    PressableIconWidget(iconData: Icons.thumb_up, label: '13', onClick: this.onClick, pressedColor: Colors.greenAccent,),
-                    PressableIconWidget(iconData: Icons.thumb_down, label: '25K', onClick: this.onClick, pressedColor: Colors.black,),
-                    PressableIconWidget(iconData: Icons.comment, label: '660', onClick: this.onClick, pressedColor: Colors.white,),
-                    PressableIconWidget(iconData: Icons.remove_red_eye, label: '450K', onClick: this.onClick, pressedColor: Colors.white,),
+                    PressableIconWidget(iconData: Icons.thumb_up, label: this.widget.album.ups.toString(), onClick: this.onClick, pressedColor: Colors.greenAccent,),
+                    PressableIconWidget(iconData: Icons.thumb_down, label: this.widget.album.downs.toString(), onClick: this.onClick, pressedColor: Colors.black,),
+                    PressableIconWidget(iconData: Icons.comment, label: this.widget.album.commentCount.toString(), onClick: this.onClick, pressedColor: Colors.white,),
+                    PressableIconWidget(iconData: Icons.remove_red_eye, label: this.widget.album.views.toString(), onClick: this.onClick, pressedColor: Colors.white,),
                     PressableIconWidget(iconData: Icons.star,label: '', onClick:  this.onClick, pressedColor: Colors.yellow,)
                   ],
                 )

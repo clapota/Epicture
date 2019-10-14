@@ -98,10 +98,13 @@ class _SearchViewState extends State<SearchView> {
                     return SizedBox(
                         height: MediaQuery.of(context).size.height * 2,
                         child: Center(child: CircularProgressIndicator()));
-                  return ListView(
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     primary: false,
-                    children: snapshot.data.map((tag) => TagCard(tag: tag)).toList(),
+                    itemBuilder: (context, index) {
+                      return TagCard(tag: this.tagList[index]);
+                    }
                   );
                 },
               ),

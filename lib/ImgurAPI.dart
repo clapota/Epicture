@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:epicture/objects/ImgurTag.dart';
+import 'package:epicture/objects/test.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'objects/ImgurImage.dart';
@@ -52,7 +53,19 @@ class ImgurAPI {
     });
   }
 
-  Image getImageFromHash(String hash) {
+  Future<Image> getImageFromHash(String hash) async {
     return Image.network("https://i.imgur.com/$hash.jpg");
+  }
+
+  Future<List<GalleryAlbum>> getImagesFromTag(String tag, {int page = 1}) async {
+    final String pageString = page.toString();
+    return http.get(
+      "https://$baseUrl/$version/gallery/t/$tag/viral/$pageString",
+      headers: {HttpHeaders.authorizationHeader: "Client-ID " + clientId}).then((response) async {
+        List<dynamic> toto = (jsonDecode(response.body)['data']['items'] as List<dynamic>);
+        debugPrint('ALOUDR A' + 'zizi');
+        return toto.map((it) => GalleryAlbum.fromJson(it)).toList();
+      }
+    );
   }
 }
