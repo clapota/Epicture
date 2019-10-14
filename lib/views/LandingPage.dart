@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:epicture/bloc/searchBloc.dart';
 import 'package:epicture/objects/OAuthAccessToken.dart';
 import 'package:epicture/views/mainPage.dart';
 import 'package:epicture/views/splashscreen.dart';
@@ -13,11 +12,11 @@ import 'package:epicture/models/TokenModel.dart';
 class LandingPage extends StatelessWidget {
   Future<bool> isLoggedIn(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-    final credentials_string = prefs.getString("oauth_credentials");
+    final crendentialsString = prefs.getString("oauth_credentials");
 
-    if (credentials_string == null) return false;
+    if (crendentialsString == null) return false;
     try {
-      final credentials = OAuthAccessToken.fromJson(jsonDecode(credentials_string));
+      final credentials = OAuthAccessToken.fromJson(jsonDecode(crendentialsString));
       ScopedModel.of<TokenModel>(context).storeToken(credentials);
       print("logged in as: ${credentials.accountUsername}");
       return true;

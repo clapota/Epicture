@@ -4,11 +4,11 @@ class PressableIconWidget extends StatefulWidget {
   PressableIconWidget({Key key, this.iconData, this.label, this.pressedColor = Colors.green, this.onClick})
       : super(key: key);
 
-  String label;
-  IconData iconData;
-  Color pressedColor;
-  Function onClick;
-  Color baseColor = Colors.white;
+  final String label;
+  final IconData iconData;
+  final Color pressedColor;
+  final Function onClick;
+  final Color baseColor = Colors.white;
 
   @override
   _PressableIconWidgetState createState() => _PressableIconWidgetState();

@@ -8,7 +8,7 @@ import 'package:epicture/bloc/searchBloc.dart';
 class TagCard extends StatefulWidget {
   TagCard({Key key, this.tag}) : super(key: key);
 
-  ImgurTag tag;
+  final ImgurTag tag;
 
   _TagCardState createState() => _TagCardState();
 }
