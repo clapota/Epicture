@@ -57,10 +57,11 @@ class ImgurAPI {
     return Image.network("https://i.imgur.com/$hash.jpg");
   }
 
-  Future<List<GalleryAlbum>> getImagesFromTag(String tag, {int page = 1}) async {
+  Future<List<GalleryAlbum>> getImagesFromTag(String tag, {int page = 1, String category = 'top'}) async {
     final String pageString = page.toString();
+    debugPrint("https://$baseUrl/$version/gallery/t/$tag/$category/$pageString");
     return http.get(
-      "https://$baseUrl/$version/gallery/t/$tag/viral/$pageString",
+      "https://$baseUrl/$version/gallery/t/$tag/$category/$pageString",
       headers: {HttpHeaders.authorizationHeader: "Client-ID " + clientId}).then((response) async {
         List<dynamic> toto = (jsonDecode(response.body)['data']['items'] as List<dynamic>);
         debugPrint('ALOUDR A' + 'zizi');

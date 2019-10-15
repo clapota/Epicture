@@ -1,6 +1,6 @@
-import 'package:epicture/bloc/applicationBloc.dart';
 import 'package:epicture/bloc/bloc.dart';
 import 'package:epicture/bloc/searchBloc.dart';
+import 'package:epicture/objects/SearchData.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/views/scrollableImgur.dart';
 import 'package:flutter/foundation.dart';
@@ -18,6 +18,7 @@ class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   String oldValue = '';
+  String category = 'hot';
   List<Widget> widgetOptions = <Widget>[
     ScrollableImgur(),
     SearchView(),
@@ -42,23 +43,23 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Rebuild');
-    debugPrint(this.currentIndex.toString());
-   // final applicationBloc = BlocProvider.of<ApplicationBloc>(context);
     return BlocProvider<SearchBloc>(
       bloc: SearchBloc(),
-      child: Builder(builder: (context) {return StreamBuilder<String>(
-        initialData: '',
+      child: Builder(builder: (context) {return StreamBuilder<SearchData>(
+        initialData: SearchData(toSearch: ''),
         stream: BlocProvider.of<SearchBloc>(context).outSearch,
         builder: (context, snapshot) {
-          debugPrint('zozoZaaaaa');
-          if (snapshot.hasData && snapshot.data != this.oldValue) {
-            debugPrint('LOL ZIZI BITE');
+          if (snapshot.hasData && snapshot.data.toSearch != this.oldValue) {
             this.currentIndex = 0;
-            this.oldValue = snapshot.data;
-            this.widgetOptions[0] = ScrollableImgur(toSearch: this.oldValue);
-            debugPrint('SEARCHING : '  + snapshot.data);
+            this.oldValue = snapshot.data.toSearch;
+            this.category = snapshot.data.category;
+            this.widgetOptions[0] = ScrollableImgur(toSearch: this.oldValue, category: this.category);
+          } else if (snapshot.hasData && snapshot.data.category != this.category) {
+            debugPrint('zz\'rot');
+            this.category = snapshot.data.category;
+            this.widgetOptions[0] = ScrollableImgur(toSearch: this.oldValue, category: this.category);
           }
+
           return Scaffold(
             body: Container(
               color: Colors.white70,
@@ -85,7 +86,7 @@ class _MainPageState extends State<MainPage> {
             ),
           );
         }
-    );
+      );
     })
     );
   }

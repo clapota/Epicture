@@ -1,6 +1,9 @@
 import 'package:epicture/objects/test.dart';
+import 'package:epicture/views/widgets/FadeRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/views/widgets/PressableIconWidget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:core';
 
 class ImageCard extends StatefulWidget {
   ImageCard({Key key, this.album}) : super(key: key);
@@ -12,9 +15,26 @@ class ImageCard extends StatefulWidget {
 
 class _ImageCardState extends State<ImageCard> {
   List<Image> images = List<Image>();
+  int _current = 0;
   void showImage() {}
 
   void onClick() {}
+
+  List<Container> makeContainers(List<Image> images) {
+    List<Container> containers = List<Container>();
+    for (var i = 0; i < images.length; i++) {
+      containers.add(Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _current == i ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4)
+                ),
+              ));
+    }
+    return containers;
+  }
 
   @override
   void initState() {
@@ -47,13 +67,35 @@ class _ImageCardState extends State<ImageCard> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return DetailScreen(image: this.images[0]);
-                }));
+                Navigator.push(context, FadeRoute(
+                  page: DetailScreen(image: this.images[this._current],),
+                ));
               },
-              child: this.images[0]),
+              child: this.images.length > 1 ? Stack(
+      children: [
+        CarouselSlider(
+          items: this.images,
+          autoPlay: true,
+          aspectRatio: 2.0,
+          onPageChanged: (index) {
+            setState(() {
+              _current = index;
+            });
+          },
+        ),
+        Positioned(
+          top: 0.0,
+          left: 0.0,
+          right: 0.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: makeContainers(images),
+          )
+        )
+      ]
+    ) : this.images[0]
+              ),
           Container(
-//            color: Theme.of(context).primaryColorDark,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(bottomLeft:  Radius.circular(20.0), bottomRight: Radius.circular(20.0)),
                 gradient: LinearGradient(
@@ -96,17 +138,62 @@ class _ImageCardState extends State<ImageCard> {
   }
 }
 
-class DetailScreen extends StatelessWidget {
-  const DetailScreen({Key key, this.image}) : super(key: key);
+class DetailScreen extends StatefulWidget {
+  DetailScreen({this.image});
 
   final Image image;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _DetailScreen();
+  }
+}
+
+class _DetailScreen extends State<DetailScreen> {
+
+  DragStartDetails startVerticalDragDetails;
+  DragUpdateDetails updateVerticalDragDetails;
+  double yTranslation = 0.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: GestureDetector(
-      child: Center(child: this.image),
+      child: Center(child: 
+      Opacity(
+      child: Transform.scale(
+        child: Transform.translate(
+          child: this.widget.image,
+          offset: Offset(0.0, this.yTranslation),
+        ),
+        scale: 1 - (yTranslation * 0.002),
+      ),
+      opacity: 1 - (yTranslation * 0.002),
+      )),
       onTap: () => Navigator.pop(context),
+      onVerticalDragStart: (dragDetails) {
+        startVerticalDragDetails = dragDetails;
+      },
+      onVerticalDragUpdate: (dragDetails) {
+        updateVerticalDragDetails = dragDetails;
+        double dy = updateVerticalDragDetails.globalPosition.dy - startVerticalDragDetails.globalPosition.dy;
+        setState(() {
+          this.yTranslation = dy;
+        });
+      },
+      onVerticalDragEnd: (endDetails) {
+        double dx = updateVerticalDragDetails.globalPosition.dx - startVerticalDragDetails.globalPosition.dx;
+        double dy = updateVerticalDragDetails.globalPosition.dy - startVerticalDragDetails.globalPosition.dy;
+        double velocity = endDetails.primaryVelocity;
+        setState(() {
+          this.yTranslation = 0.0;
+        });
+        dx = dx.abs();
+        dy = dy.abs();
+
+        if (dy > 50)
+          Navigator.pop(context);
+      },
     ));
   }
 }

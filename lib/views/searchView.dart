@@ -1,5 +1,6 @@
 import 'package:epicture/ImgurAPI.dart';
 import 'package:epicture/bloc/bloc.dart';
+import 'package:epicture/objects/SearchData.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/objects/ImgurTag.dart';
 import 'package:epicture/views/widgets/tagCard.dart';
@@ -79,15 +80,15 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
+    return StreamBuilder<SearchData>(
       stream: searchBloc.outSearch,
-      initialData: '',
+      initialData: SearchData(toSearch: ''),
       builder: (context, snapshot) {
         return Column(
           children: <Widget>[
             Container(
               height: 50,
-              child: Center(child: Text(snapshot.data)),
+              child: Center(child: Text(snapshot.data.toSearch)),
             ),
             Container(
               height: MediaQuery.of(context).size.height - 150,

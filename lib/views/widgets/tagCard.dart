@@ -20,7 +20,7 @@ class _TagCardState extends State<TagCard> {
   void notifySearchStream() {
     final SearchBloc bloc = BlocProvider.of<SearchBloc>(this.context);
 
-    bloc.searchTag.add(this.widget.tag.name);
+    bloc.searchTag.add('toSearch ' + this.widget.tag.name);
   }
 
   @override
