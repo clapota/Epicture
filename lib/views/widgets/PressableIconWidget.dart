@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PressableIconWidget extends StatefulWidget {
-  PressableIconWidget({Key key, this.iconData, this.label, this.pressedColor = Colors.green, this.onClick})
+  PressableIconWidget({Key key, this.iconData, this.label, this.pressedColor = Colors.green, this.onClick, this.iconSize = 10.0})
       : super(key: key);
 
+  final double iconSize;
   final String label;
   final IconData iconData;
   final Color pressedColor;
@@ -29,15 +30,20 @@ class _PressableIconWidgetState extends State<PressableIconWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      IconButton(
-        icon: Icon(this.widget.iconData),
-        onPressed: this.onPress,
-        color: this.color,
+      Container(
+        padding: const EdgeInsets.all(0.0),
+        height: 35.0,
+        child: IconButton(
+          icon: Icon(this.widget.iconData),
+          onPressed: this.onPress,
+          color: this.color,
+//          iconSize: this.widget.iconSize,
+        )
       ),
       Padding(
         padding: const EdgeInsets.only(bottom: 10),
       child: Text(this.widget.label, style: TextStyle(fontSize: 12.0, color: this.color, fontWeight: FontWeight.w800),)
       )
-    ]);
+    ], mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min,);
   }
 }

@@ -37,7 +37,6 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
 
-    debugPrint('TEST BITE ' + this.oldValue);
     this.widgetOptions[0] = ScrollableImgur(toSearch: this.oldValue);
   }
 

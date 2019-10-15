@@ -1,4 +1,5 @@
 import 'package:epicture/objects/test.dart';
+import 'package:epicture/views/CommentView.dart';
 import 'package:epicture/views/widgets/FadeRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/views/widgets/PressableIconWidget.dart';
@@ -34,6 +35,12 @@ class _ImageCardState extends State<ImageCard> {
               ));
     }
     return containers;
+  }
+
+  void showComments() {
+    Navigator.push(context, FadeRoute(
+      page: CommentView(album: this.widget.album)
+    ));
   }
 
   @override
@@ -122,11 +129,11 @@ class _ImageCardState extends State<ImageCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    PressableIconWidget(iconData: Icons.thumb_up, label: this.widget.album.ups.toString(), onClick: this.onClick, pressedColor: Colors.greenAccent,),
-                    PressableIconWidget(iconData: Icons.thumb_down, label: this.widget.album.downs.toString(), onClick: this.onClick, pressedColor: Colors.black,),
-                    PressableIconWidget(iconData: Icons.comment, label: this.widget.album.commentCount.toString(), onClick: this.onClick, pressedColor: Colors.white,),
-                    PressableIconWidget(iconData: Icons.remove_red_eye, label: this.widget.album.views.toString(), onClick: this.onClick, pressedColor: Colors.white,),
-                    PressableIconWidget(iconData: Icons.star,label: '', onClick:  this.onClick, pressedColor: Colors.yellow,)
+                    PressableIconWidget(iconData: Icons.thumb_up, label: this.widget.album.ups.toString(), onClick: this.onClick, pressedColor: Colors.greenAccent, iconSize: 20.0,),
+                    PressableIconWidget(iconData: Icons.thumb_down, label: this.widget.album.downs.toString(), onClick: this.onClick, pressedColor: Colors.black, iconSize: 20.0,),
+                    PressableIconWidget(iconData: Icons.comment, label: this.widget.album.commentCount.toString(), onClick: this.showComments, pressedColor: Colors.white, iconSize: 20.0,),
+                    PressableIconWidget(iconData: Icons.remove_red_eye, label: this.widget.album.views.toString(), onClick: this.onClick, pressedColor: Colors.white, iconSize: 20.0,),
+                    PressableIconWidget(iconData: Icons.star,label: '', onClick:  this.onClick, pressedColor: Colors.yellow, iconSize: 20.0,)
                   ],
                 )
               ],

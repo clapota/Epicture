@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:epicture/objects/Comment.dart';
 import 'package:epicture/objects/ImgurTag.dart';
 import 'package:epicture/objects/test.dart';
 import 'package:http/http.dart' as http;
@@ -68,5 +69,16 @@ class ImgurAPI {
         return toto.map((it) => GalleryAlbum.fromJson(it)).toList();
       }
     );
+  }
+
+  Future<List<Comment>> getCommentsFromId(String id) {
+    final String route = "https://$baseUrl/$version/gallery/$id/comments/best";
+    return http.get(
+      route,
+      headers: {HttpHeaders.authorizationHeader: "Client-ID " + clientId}).then((response) async {
+        List<dynamic> toto = (jsonDecode(response.body)['data'] as List<dynamic>);
+
+        return toto.map((it) => Comment.fromJson(it)).toList();
+      });
   }
 }
