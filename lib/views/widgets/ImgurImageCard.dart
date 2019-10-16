@@ -1,3 +1,4 @@
+import 'package:epicture/ImgurAPI.dart';
 import 'package:epicture/objects/test.dart';
 import 'package:epicture/views/CommentView.dart';
 import 'package:epicture/views/widgets/FadeRoute.dart';
@@ -35,6 +36,21 @@ class _ImageCardState extends State<ImageCard> {
               ));
     }
     return containers;
+  }
+
+  void addFavorite() {
+    if (this.widget.album.favorite != true) {
+      debugPrint('ça arrive');
+      final ImgurAPI api = ImgurAPI();
+
+      api.addFavorite(this.widget.album.id).then((statusCode) {
+        debugPrint(statusCode.toString());
+        if (statusCode == 200) {
+          debugPrint('Added with success album of id ' + this.widget.album.id + ' as favorite');
+          this.widget.album.favorite = false;
+        }
+      });
+    }
   }
 
   void showComments() {
@@ -133,7 +149,7 @@ class _ImageCardState extends State<ImageCard> {
                     PressableIconWidget(iconData: Icons.thumb_down, label: this.widget.album.downs.toString(), onClick: this.onClick, pressedColor: Colors.black, iconSize: 20.0,),
                     PressableIconWidget(iconData: Icons.comment, label: this.widget.album.commentCount.toString(), onClick: this.showComments, pressedColor: Colors.white, iconSize: 20.0,),
                     PressableIconWidget(iconData: Icons.remove_red_eye, label: this.widget.album.views.toString(), onClick: this.onClick, pressedColor: Colors.white, iconSize: 20.0,),
-                    PressableIconWidget(iconData: Icons.star,label: '', onClick:  this.onClick, pressedColor: Colors.yellow, iconSize: 20.0,)
+                    PressableIconWidget(iconData: Icons.star,label: '', onClick:  this.addFavorite, pressedColor: Colors.yellow, iconSize: 20.0,)
                   ],
                 )
               ],
@@ -173,9 +189,9 @@ class _DetailScreen extends State<DetailScreen> {
           child: this.widget.image,
           offset: Offset(0.0, this.yTranslation),
         ),
-        scale: 1 - (yTranslation * 0.002),
+        scale: 1 - (yTranslation.abs() * 0.002),
       ),
-      opacity: 1 - (yTranslation * 0.002),
+      opacity: 1 - (yTranslation.abs() * 0.002),
       )),
       onTap: () => Navigator.pop(context),
       onVerticalDragStart: (dragDetails) {

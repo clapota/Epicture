@@ -1,6 +1,7 @@
 import 'package:epicture/bloc/bloc.dart';
 import 'package:epicture/bloc/searchBloc.dart';
 import 'package:epicture/objects/SearchData.dart';
+import 'package:epicture/views/imageScrollable.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/views/scrollableImgur.dart';
 import 'package:flutter/foundation.dart';

@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:epicture/objects/Comment.dart';
 import 'package:epicture/objects/ImgurTag.dart';
+import 'package:epicture/objects/OAuthAccessToken.dart';
 import 'package:epicture/objects/test.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'objects/ImgurImage.dart';
-
 
 class ImgurAPI {
   static final ImgurAPI _instance = new ImgurAPI._internal();
@@ -60,12 +61,10 @@ class ImgurAPI {
 
   Future<List<GalleryAlbum>> getImagesFromTag(String tag, {int page = 1, String category = 'top'}) async {
     final String pageString = page.toString();
-    debugPrint("https://$baseUrl/$version/gallery/t/$tag/$category/$pageString");
     return http.get(
       "https://$baseUrl/$version/gallery/t/$tag/$category/$pageString",
       headers: {HttpHeaders.authorizationHeader: "Client-ID " + clientId}).then((response) async {
         List<dynamic> toto = (jsonDecode(response.body)['data']['items'] as List<dynamic>);
-        debugPrint('ALOUDR A' + 'zizi');
         return toto.map((it) => GalleryAlbum.fromJson(it)).toList();
       }
     );
@@ -80,5 +79,27 @@ class ImgurAPI {
 
         return toto.map((it) => Comment.fromJson(it)).toList();
       });
+  }
+
+  Future<int> addFavorite(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    OAuthAccessToken token;
+    try {
+      dynamic credentials = prefs.getString('oauth_credentials');
+      token = OAuthAccessToken.fromJson(jsonDecode(credentials));
+    } catch (e) {
+      return 400;
+    }
+    debugPrint(token.refreshToken);
+    final String route = "https://$baseUrl/$version/album/$id/favorite";
+
+    return http.post(
+      route,
+      headers: {HttpHeaders.authorizationHeader: "Bearer " + token.refreshToken}).then((response) async {
+        dynamic toto = (jsonDecode(response.body) as dynamic);
+
+        debugPrint(toto.toString());
+        return toto['status'];
+    });
   }
 }

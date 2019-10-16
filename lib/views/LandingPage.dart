@@ -11,20 +11,22 @@ import 'LoginPage.dart';
 
 class LandingPage extends StatelessWidget {
   Future<bool> isLoggedIn(BuildContext context) async {
+    print('vive le caca');
     final prefs = await SharedPreferences.getInstance();
     final crendentialsString = prefs.getString("oauth_credentials");
     final applicationBloc = BlocProvider.of<ApplicationBloc>(context);
 
     if (crendentialsString == null)
-      return true;
+      return false;
     try {
+      print('le zizi');
       final credentials = OAuthAccessToken.fromJson(jsonDecode(crendentialsString));
 //      ScopedModel.of<TokenModel>(context).storeToken(credentials);
       applicationBloc.registerToken.add(credentials);
       print("logged in as: ${credentials.accountUsername}");
       return true;
     } catch (e) {
-      return true;
+      return false;
     }
   }
 

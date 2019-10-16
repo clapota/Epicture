@@ -33,7 +33,8 @@ class _EpictureAppState extends State<EpictureApp> {
 
   Future<Widget> buildFromDeepLink(BuildContext context, Uri uri) async {
     print("DeepLink uri: $uri");
-    print(uri.fragment);
+    print('frag ' + uri.fragment);
+    print('HOTS : ' + uri.host);
     if (uri.host == "login") {
       if (!await saveCredentials(uri))
         print("Error when logging in");
