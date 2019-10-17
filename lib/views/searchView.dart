@@ -104,6 +104,8 @@ class _SearchViewState extends State<SearchView> {
                     shrinkWrap: true,
                     primary: false,
                     itemBuilder: (context, index) {
+                      if (this.tagList == null || index >= this.tagList.length)
+                        return Container();
                       return TagCard(tag: this.tagList[index]);
                     }
                   );

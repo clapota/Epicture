@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
-class NetworkImageLoader extends StatelessWidget {
+class NetworkImageLoader extends StatefulWidget {
   final String url;
 
   const NetworkImageLoader(this.url);
 
   @override
+  _NetworkImageLoaderState createState() => _NetworkImageLoaderState();
+}
+
+class _NetworkImageLoaderState extends State<NetworkImageLoader> with AutomaticKeepAliveClientMixin {
+
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Image.network(
-      url,
+      widget.url,
       loadingBuilder: (context, child, progress) {
         if (progress == null) return child;
         return Padding(
@@ -23,5 +31,10 @@ class NetworkImageLoader extends StatelessWidget {
         );
       },
     );
+  }
+
+  @override
+  bool get wantKeepAlive {
+    return true;
   }
 }

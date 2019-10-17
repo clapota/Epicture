@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import '../ImgurAPI.dart';
 
 class ImageScrollable extends StatefulWidget {
-  ImageScrollable({Key key, this.toSearch = '', this.category = 'hot'})
-      : super(key: key);
+  ImageScrollable({Key key, this.toSearch = '', this.category = 'hot'}) : super(key: key);
 
   final String category;
   final String toSearch;
@@ -26,13 +25,13 @@ class _ImageScrollable extends State<ImageScrollable> {
   void loadMoreImages() {
     final ImgurAPI api = ImgurAPI();
 
-    api
-        .getImagesFromTag(this.widget.toSearch,
-            page: this.page, category: this.widget.category)
-        .then((data) {
-      this.albums.addAll(data);
-    });
     page += 1;
+    print("loading page $page");
+    api.getImagesFromTag(this.widget.toSearch, page: this.page, category: this.widget.category).then((data) {
+      setState(() {
+        this.albums.addAll(data);
+      });
+    });
   }
 
   void changeDropDownValue(String value) {
@@ -47,17 +46,13 @@ class _ImageScrollable extends State<ImageScrollable> {
   void initState() {
     super.initState();
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         this.loadMoreImages();
       }
     });
     final ImgurAPI api = ImgurAPI();
 
-    api
-        .getImagesFromTag(this.widget.toSearch,
-            page: this.page, category: this.widget.category)
-        .then((data) {
+    api.getImagesFromTag(this.widget.toSearch, page: this.page, category: this.widget.category).then((data) {
       if (data != null) {
         setState(() {
           this.albums = data;

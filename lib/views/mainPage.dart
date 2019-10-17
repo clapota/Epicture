@@ -55,7 +55,6 @@ class _MainPageState extends State<MainPage> {
             this.category = snapshot.data.category;
             this.widgetOptions[0] = ScrollableImgur(toSearch: this.oldValue, category: this.category);
           } else if (snapshot.hasData && snapshot.data.category != this.category) {
-            debugPrint('zz\'rot');
             this.category = snapshot.data.category;
             this.widgetOptions[0] = ScrollableImgur(toSearch: this.oldValue, category: this.category);
           }
