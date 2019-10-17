@@ -1,73 +1,57 @@
 import 'package:epicture/ImgurAPI.dart';
 import 'package:epicture/bloc/bloc.dart';
+import 'package:epicture/views/widgets/NetworkImageLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:epicture/objects/ImgurTag.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:epicture/bloc/searchBloc.dart';
 
-class TagCard extends StatefulWidget {
+class TagCard extends StatelessWidget {
   TagCard({Key key, this.tag}) : super(key: key);
 
   final ImgurTag tag;
 
-  _TagCardState createState() => _TagCardState();
-}
+  void notifySearchStream(BuildContext context) {
+    final SearchBloc bloc = BlocProvider.of<SearchBloc>(context);
 
-class _TagCardState extends State<TagCard> {
-  PaletteGenerator paletteGenerator;
-  Image _image;
-
-  void notifySearchStream() {
-    final SearchBloc bloc = BlocProvider.of<SearchBloc>(this.context);
-
-    bloc.searchTag.add('toSearch ' + this.widget.tag.name);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    ImgurAPI().getImageFromHash(this.widget.tag.backgroundHash).then((image) {
-      if (this.mounted) {
-        setState(() {
-          this._image = image;
-        });
-      }
-    });
+    bloc.searchTag.add('toSearch ' + this.tag.name);
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: 
-      Container(
+      child: Container(
         height: 300,
         width: 150,
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              _image != null ? _image : CircularProgressIndicator(),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: Text(
-                    this.widget.tag.displayName,
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                NetworkImageLoader(ImgurAPI().getImageFromHash(this.tag.thumbnailHash ?? this.tag.backgroundHash)),
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  child: Center(
+                    child: Text(
+                      this.tag.displayName,
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+                    ),
                   ),
-                ),
-                height: 30.0,
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
-                  color: this.widget.tag.accent != null ? Color(int.parse("FF" + this.widget.tag.accent, radix: 16)) : Colors.grey[600],
-                ),
-              )
-            ],
-          )),
+                  height: 30.0,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                    BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
+                    color: this.tag.accent != null
+                        ? Color(int.parse("FF" + this.tag.accent, radix: 16))
+                        : Colors.grey[600],
+                  ),
+                )
+              ],
+            )),
       ),
-      onTap: notifySearchStream,
+      onTap: () => notifySearchStream(context),
     );
   }
 }

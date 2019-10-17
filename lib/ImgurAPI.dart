@@ -55,8 +55,8 @@ class ImgurAPI {
     });
   }
 
-  Future<Image> getImageFromHash(String hash) async {
-    return Image.network("https://i.imgur.com/$hash.jpg");
+  String getImageFromHash(String hash) {
+    return "https://i.imgur.com/$hash.jpg";
   }
 
   Future<List<GalleryAlbum>> getImagesFromTag(String tag, {int page = 1, String category = 'top'}) async {
@@ -95,11 +95,15 @@ class ImgurAPI {
 
     return http.post(
       route,
-      headers: {HttpHeaders.authorizationHeader: "Bearer " + token.refreshToken}).then((response) async {
+      headers: {HttpHeaders.authorizationHeader: "Bearer " + token.accessToken}).then((response) async {
         dynamic toto = (jsonDecode(response.body) as dynamic);
 
         debugPrint(toto.toString());
         return toto['status'];
     });
+  }
+
+  String getImageThumbnail(String url) {
+    return "https://i.imgur.com/${Uri.parse(url).path.replaceFirst(".", "m.")}";
   }
 }
