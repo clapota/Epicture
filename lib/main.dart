@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:epicture/bloc/bloc.dart';
 import 'package:epicture/views/LandingPage.dart';
 import 'package:epicture/views/splashscreen.dart';

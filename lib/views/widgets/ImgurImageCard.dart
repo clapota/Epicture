@@ -1,5 +1,5 @@
 import 'package:epicture/ImgurAPI.dart';
-import 'package:epicture/objects/test.dart';
+import 'package:epicture/objects/GalleryAlbum.dart';
 import 'package:epicture/views/CommentView.dart';
 import 'package:epicture/views/widgets/FadeRoute.dart';
 import 'package:epicture/views/widgets/NetworkImageLoader.dart';

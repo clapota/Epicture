@@ -1,6 +1,6 @@
 import 'package:epicture/ImgurAPI.dart';
 import 'package:epicture/objects/Comment.dart';
-import 'package:epicture/objects/test.dart';
+import 'package:epicture/objects/GalleryAlbum.dart';
 import 'package:epicture/views/addCommentView.dart';
 import 'package:epicture/views/widgets/FadeRoute.dart';
 import 'package:flutter/material.dart';
