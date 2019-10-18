@@ -16,14 +16,14 @@ class LandingPage extends StatelessWidget {
     final applicationBloc = BlocProvider.of<ApplicationBloc>(context);
 
     if (crendentialsString == null)
-      return false;
+      return true;
     try {
       final credentials = OAuthAccessToken.fromJson(jsonDecode(crendentialsString));
       applicationBloc.registerToken.add(credentials);
       print("logged in as: ${credentials.accountUsername}");
       return true;
     } catch (e) {
-      return false;
+      return true;
     }
   }
 

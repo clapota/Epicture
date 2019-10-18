@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:epicture/objects/Comment.dart';
 import 'package:epicture/objects/ImgurTag.dart';
 import 'package:epicture/objects/OAuthAccessToken.dart';
-import 'package:epicture/objects/test.dart';
+import 'package:epicture/objects/GalleryAlbum.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,6 +104,9 @@ class ImgurAPI {
   }
 
   String getImageThumbnail(String url) {
-    return "https://i.imgur.com/${Uri.parse(url).path.replaceFirst(".", "m.")}";
+    if (!url.contains('.gif')) {
+      return "https://i.imgur.com/${Uri.parse(url).path.replaceFirst(".", "m.")}";
+    }
+    return url;
   }
 }

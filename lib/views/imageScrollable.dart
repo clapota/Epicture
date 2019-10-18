@@ -1,6 +1,6 @@
 import 'package:epicture/bloc/bloc.dart';
 import 'package:epicture/bloc/searchBloc.dart';
-import 'package:epicture/objects/test.dart';
+import 'package:epicture/objects/GalleryAlbum.dart';
 import 'package:epicture/views/widgets/ImgurImageCard.dart';
 import 'package:flutter/material.dart';
 

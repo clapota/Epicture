@@ -1,4 +1,4 @@
-import 'package:epicture/objects/test.dart';
+import 'package:epicture/objects/GalleryAlbum.dart';
 import 'package:flutter/material.dart';
 
 class AddCommentView extends StatefulWidget {
