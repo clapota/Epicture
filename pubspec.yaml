@@ -22,7 +22,8 @@ dependencies:
     sdk: flutter
   image_picker: ^0.6.1
   simple_animations: ^1.3.3
-  carousel_slider: ^1.3.1
+  carousel_slider:
+    path: ./modules/flutter_carousel_slider
 
   http: ^0.12.0+2
   shared_preferences: ^0.5.2

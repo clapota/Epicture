@@ -70,14 +70,24 @@ class _ImageScrollable extends State<ImageScrollable> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: this.albums.length,
-      controller: scrollController,
-      itemBuilder: (context, index) {
-        return ImageCard(
-          album: albums[index],
-        );
-      },
+    return ListView(
+      children: [
+        ListView.builder(
+          primary: false,
+          shrinkWrap: true,
+          itemCount: this.albums.length,
+          controller: scrollController,
+          itemBuilder: (context, index) {
+            return ImageCard(
+              album: albums[index],
+            );
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      ],
     );
   }
 }
