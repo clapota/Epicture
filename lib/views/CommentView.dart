@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:epicture/views/widgets/CommentWidget.dart';
 
 class CommentView extends StatefulWidget {
-  CommentView({Key key, this.album}) : super(key: key);
+  CommentView({Key key, this.album, this.parent}) : super(key: key);
 
   final GalleryAlbum album;
+  final Comment parent;
 
   _CommentViewState createState() => _CommentViewState();
 }
@@ -18,9 +19,17 @@ class _CommentViewState extends State<CommentView> {
   Future<List<Comment>> fetchComment() async {
     final api = ImgurAPI();
 
-    List<Comment> comments = await api.getCommentsFromId(this.widget.album.id);
-    return comments;
+    if (this.widget.album != null) {
+      List<Comment> comments = await api.getCommentsFromId(
+          this.widget.album.id);
+      return comments;
+    } else if (this.widget.parent != null) {
+      List<Comment> comments = this.widget.parent.children;
+      return comments;
+    }
+    return List<Comment>();
   }
+
   void addComment() {
     showDialog(
       context: context,

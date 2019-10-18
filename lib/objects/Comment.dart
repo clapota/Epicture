@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Comment {
   int id;
   String imageId;
@@ -12,6 +14,7 @@ class Comment {
   int datetime;
   int parentId;
   bool deleted;
+  List<Comment> children;
 
   Comment(
       {this.id,
@@ -42,6 +45,14 @@ class Comment {
     datetime = json['datetime'];
     parentId = json['parent_id'];
     deleted = json['deleted'];
+    List<dynamic> toto = json['children'];
+    if (toto.length > 0) {
+      List<Comment> _children = toto.map((elem) => Comment.fromJson(elem))
+          .toList();
+      this.children = _children;
+    } else {
+      children = null;
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -59,6 +70,7 @@ class Comment {
     data['datetime'] = this.datetime;
     data['parent_id'] = this.parentId;
     data['deleted'] = this.deleted;
+    data['children'] = this.children != null ? this.children.map((elem) => elem.toJson()) : null;
     return data;
   }
 }
